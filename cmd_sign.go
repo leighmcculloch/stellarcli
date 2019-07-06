@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/spf13/cobra"
 	"gopkg.in/AlecAivazis/survey.v1"
 	"github.com/stellar/go/keypair"
@@ -40,7 +39,7 @@ func cmdSign(cmd *cobra.Command, args []string) {
 		fmt.Fprintln(os.Stderr, "XDR could not be fully decoded and re-encoded without losing information")
 		return
 	}
-	spew.Fdump(os.Stderr, &tx)
+	Dump(os.Stderr, tx)
 
 	hash, err := network.HashTransaction(&tx.Tx, networkPassphrase)
 	if err != nil {

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/spf13/cobra"
 	"gopkg.in/AlecAivazis/survey.v1"
 	"github.com/stellar/go/network"
@@ -32,7 +31,14 @@ func cmdXDR(cmd *cobra.Command, args []string) {
 		fmt.Fprintln(os.Stderr, err)
 		return
 	}
-	spew.Fdump(os.Stderr, &tx)
+	if txReEncoded, err := xdr.MarshalBase64(tx); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return
+	} else if txReEncoded != inputXDR {
+		fmt.Fprintln(os.Stderr, "XDR could not be fully decoded and re-encoded without losing information")
+		return
+	}
+	Dump(os.Stderr, tx)
 
 	hash, err := network.HashTransaction(&tx.Tx, networkPassphrase)
 	if err != nil {
