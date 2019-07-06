@@ -29,8 +29,15 @@ func cmdSign(cmd *cobra.Command, args []string) {
 	}
 
 	var tx xdr.TransactionEnvelope
-	if err := xdr.SafeUnmarshalBase64(string(inputXDR), &tx); err != nil {
+	if err := xdr.SafeUnmarshalBase64(inputXDR, &tx); err != nil {
 		fmt.Fprintln(os.Stderr, err)
+		return
+	}
+	if txReEncoded, err := xdr.MarshalBase64(tx); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return
+	} else if txReEncoded != inputXDR {
+		fmt.Fprintln(os.Stderr, "XDR could not be fully decoded and re-encoded without losing information")
 		return
 	}
 	spew.Fdump(os.Stderr, &tx)
