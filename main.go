@@ -35,13 +35,7 @@ func main() {
 		},
 	}
 	cmdTestNet.AddCommand(
-		createCmdCreateAccountFriendbot(),
-		createCmdCreateAccount(),
-		createCmdMergeAccount(),
-		createCmdAssets(),
-		createCmdSetOptions(),
 		createCmdSign(),
-		createCmdSubmit(),
 	)
 
 	cmdPublicNet := cobra.Command{
@@ -56,12 +50,7 @@ func main() {
 		},
 	}
 	cmdPublicNet.AddCommand(
-		createCmdCreateAccount(),
-		createCmdMergeAccount(),
-		createCmdAssets(),
-		createCmdSetOptions(),
 		createCmdSign(),
-		createCmdSubmit(),
 	)
 
 	cmd.AddCommand(
@@ -69,7 +58,6 @@ func main() {
 		createCmdXDR(),
 		&cmdTestNet,
 		&cmdPublicNet,
-		createCmdUpgrade(),
 	)
 
 	if err := cmd.Execute(); err != nil {
