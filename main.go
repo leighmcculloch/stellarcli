@@ -58,6 +58,7 @@ func main() {
 		createCmdXDR(),
 		&cmdTestNet,
 		&cmdPublicNet,
+		createCmdUpgrade(),
 	)
 
 	if err := cmd.Execute(); err != nil {
